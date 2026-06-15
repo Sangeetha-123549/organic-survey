@@ -27,7 +27,7 @@ function initCharts() {
   });
 }
 
-// 🔄 FETCH GOOGLE SHEET DATA
+// 🔄 FETCH DATA
 async function updateDashboard() {
 
   const res = await fetch(sheetURL);
@@ -48,22 +48,20 @@ async function updateDashboard() {
 
   rows.forEach(row => {
 
-    const cols = row.split(",");
+    // ✅ safer CSV split
+    const cols = row.split(",").map(c => c.replace(/"/g, "").trim());
 
     if (cols.length < 12) return;
 
     total++;
 
-    // ⚠️ IMPORTANT: based on your form order
-    // q6 = Organic farming
-    const organicAnswer = cols[6]?.trim();
+    const organicAnswer = cols[8]; // ⚠️ check your sheet index
 
     if (organicAnswer === "Yes") organic++;
     else if (organicAnswer === "No") chemical++;
     else partial++;
 
-    // q12 = irrigation source
-    const water = cols[12]?.trim();
+    const water = cols[12];
 
     if (water === "Borewell") borewell++;
     else if (water === "Rain Water" || water === "Rainwater") rainwater++;
@@ -71,20 +69,16 @@ async function updateDashboard() {
     else if (water === "River" || water === "Tank") tank++;
   });
 
-  // 📊 UPDATE PIE
   pieChart.data.datasets[0].data = [organic, partial, chemical];
   pieChart.update();
 
-  // 📊 UPDATE BAR
   barChart.data.datasets[0].data = [borewell, rainwater, canal, tank];
   barChart.update();
 
-  // 👨‍🌾 TOTAL COUNT
   document.getElementById("total").innerText =
     "👨‍🌾 Total Farmers: " + total;
 }
 
-// 🔁 AUTO UPDATE
 setInterval(updateDashboard, 5000);
 
 initCharts();
