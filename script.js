@@ -1,4 +1,4 @@
-const scriptURL = "https://script.google.com/macros/s/AKfycbymmIobkghxGzgRrHwQzEGzzYyuWu29BJFqGkFQQwxrw-sEX1hYHOEzz_uu_px7zVI/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbwhPgI16P1d6uodkf-MZ_cCIxNOWmiGxDlE50LfWS8N48f-yAi8T974-cBR_r9pih0/exec";
 
 // ⏰ LIVE TIME DISPLAY
 setInterval(() => {
@@ -12,55 +12,60 @@ setInterval(() => {
 function getLocation() {
   return new Promise((resolve) => {
     if (!navigator.geolocation) {
-      resolve({ lat: "Not supported", lon: "Not supported" });
+      resolve({ latitude: "Not supported", longitude: "Not supported" });
     }
 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         resolve({
-          lat: pos.coords.latitude,
-          lon: pos.coords.longitude
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude
         });
       },
       () => {
-        resolve({ lat: "Denied", lon: "Denied" });
+        resolve({ latitude: "Denied", longitude: "Denied" });
       }
     );
   });
 }
 
 // 💾 FORM SUBMIT
-document.getElementById("surveyForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
 
-  const formData = Object.fromEntries(new FormData(e.target));
+  const form = document.getElementById("surveyForm");
 
-  // get GPS safely
-  const location = await getLocation();
+  if (!form) return;
 
-  // final payload (VERY IMPORTANT for marks)
-  const payload = {
-    time: new Date().toLocaleString(),
-    latitude: location.lat,
-    longitude: location.lon,
-    responses: formData
-  };
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  try {
-    await fetch(scriptURL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
+    const formData = Object.fromEntries(new FormData(form));
 
-    alert("Submitted Successfully ✅");
-    window.location.href = "thankyou.html";
+    const location = await getLocation();
 
-  } catch (err) {
-    alert("Error submitting form ❌");
-    console.log(err);
-  }
+    // ✅ FINAL FLAT PAYLOAD (IMPORTANT FIX)
+    const payload = {
+      time: new Date().toLocaleString(),
+      latitude: location.latitude,
+      longitude: location.longitude,
+      ...formData
+    };
+
+    try {
+      await fetch(scriptURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      alert("Submitted Successfully ✅");
+      window.location.href = "thankyou.html";
+
+    } catch (err) {
+      alert("Submission Failed ❌");
+      console.log(err);
+    }
+  });
 });
