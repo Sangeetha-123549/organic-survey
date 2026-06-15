@@ -21,7 +21,7 @@ function initCharts() {
       labels: ["Borewell", "Rainwater", "Canal", "Tank"],
       datasets: [{
         label: "Farmers",
-        data: [0, 0, 0]
+        data: [0, 0, 0, 0]
       }]
     }
   });
@@ -33,14 +33,14 @@ async function updateDashboard() {
   const res = await fetch(sheetURL);
   const text = await res.text();
 
-  const rows = text.split("\n").slice(1);
+  const rows = text.trim().split("\n").slice(1);
 
   let organic = 0;
   let partial = 0;
   let chemical = 0;
 
   let borewell = 0;
-  let rain = 0;
+  let rainwater = 0;
   let canal = 0;
   let tank = 0;
 
@@ -50,20 +50,25 @@ async function updateDashboard() {
 
     const cols = row.split(",");
 
-    if (cols.length < 10) return;
+    if (cols.length < 12) return;
 
     total++;
 
-    // Q6 Organic farming
-    if (cols[6] === "Yes") organic++;
-    else if (cols[6] === "Partially") partial++;
-    else chemical++;
+    // ⚠️ IMPORTANT: based on your form order
+    // q6 = Organic farming
+    const organicAnswer = cols[6]?.trim();
 
-    // Q12 irrigation
-    if (cols[11] === "Borewell") borewell++;
-    else if (cols[11] === "Rainwater") rain++;
-    else if (cols[11] === "Canal") canal++;
-    else if (cols[11] === "Tank") tank++;
+    if (organicAnswer === "Yes") organic++;
+    else if (organicAnswer === "No") chemical++;
+    else partial++;
+
+    // q12 = irrigation source
+    const water = cols[12]?.trim();
+
+    if (water === "Borewell") borewell++;
+    else if (water === "Rain Water" || water === "Rainwater") rainwater++;
+    else if (water === "Canal") canal++;
+    else if (water === "River" || water === "Tank") tank++;
   });
 
   // 📊 UPDATE PIE
@@ -71,7 +76,7 @@ async function updateDashboard() {
   pieChart.update();
 
   // 📊 UPDATE BAR
-  barChart.data.datasets[0].data = [borewell, rain, canal, tank];
+  barChart.data.datasets[0].data = [borewell, rainwater, canal, tank];
   barChart.update();
 
   // 👨‍🌾 TOTAL COUNT
