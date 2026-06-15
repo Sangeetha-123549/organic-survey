@@ -1,0 +1,268 @@
+/* =========================
+   🌐 GLOBAL RESET
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* =========================
+   🌈 RAINBOW BACKGROUND
+========================= */
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(135deg,
+    #ff4ecd,
+    #7c4dff,
+    #00e5ff,
+    #00ff94,
+    #ffd600,
+    #ff6d00
+  );
+
+  background-size: 400% 400%;
+  animation: rainbowMove 10s ease infinite;
+
+  padding: 15px;
+
+  color: #ffffff;
+}
+
+/* animation */
+@keyframes rainbowMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* =========================
+   🪟 GLASS CONTAINER
+========================= */
+.glass-container {
+  width: 92%;
+  max-width: 650px;
+
+  padding: 22px;
+
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+
+  border-radius: 24px;
+
+  border: 1px solid rgba(255,255,255,0.25);
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.25),
+    inset 0 0 15px rgba(255,255,255,0.2);
+
+  animation: floatCard 3s ease-in-out infinite;
+}
+
+/* floating effect */
+@keyframes floatCard {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+/* =========================
+   🏷️ HEADINGS
+========================= */
+h1 {
+  font-size: 22px;
+  text-align: center;
+  font-weight: 600;
+
+  color: #ffffff;
+
+  text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 18px;
+  text-align: center;
+  font-weight: 500;
+
+  color: rgba(255,255,255,0.9);
+}
+
+/* =========================
+   📝 PARAGRAPH
+========================= */
+p {
+  font-size: 14px;
+  text-align: center;
+  line-height: 1.5;
+
+  color: rgba(255,255,255,0.9);
+
+  margin-bottom: 10px;
+}
+
+/* =========================
+   🏷️ LABELS
+========================= */
+label {
+  display: block;
+  margin-top: 12px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  color: rgba(255,255,255,0.95);
+}
+
+/* =========================
+   📦 INPUT / SELECT
+========================= */
+input,
+select {
+  width: 100%;
+  padding: 12px;
+
+  margin-top: 6px;
+
+  border-radius: 14px;
+  border: none;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  background: rgba(255,255,255,0.18);
+  color: #ffffff;
+
+  outline: none;
+
+  transition: 0.3s ease;
+}
+
+/* focus effect */
+input:focus,
+select:focus {
+  transform: scale(1.03);
+  background: rgba(255,255,255,0.28);
+}
+
+/* placeholder fix */
+input::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+/* dropdown text fix */
+select option {
+  color: black;
+}
+
+/* =========================
+   🔘 BUTTON
+========================= */
+.btn {
+  margin-top: 18px;
+  width: 100%;
+  padding: 12px;
+
+  border: none;
+  border-radius: 16px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  color: #ffffff;
+
+  background: linear-gradient(135deg,
+    #ff4ecd,
+    #7c4dff,
+    #00e5ff
+  );
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(255, 78, 205, 0.4);
+}
+
+/* =========================
+   📱 MOBILE FIX
+========================= */
+@media (max-width: 768px) {
+
+  body {
+    padding: 10px;
+  }
+
+  .glass-container {
+    width: 100%;
+    padding: 14px;
+    border-radius: 18px;
+
+    animation: none;
+  }
+
+  h1 {
+    font-size: 18px;
+  }
+
+  h2 {
+    font-size: 16px;
+  }
+
+  p {
+    font-size: 13px;
+  }
+
+  label {
+    font-size: 13px;
+  }
+
+  input,
+  select {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+/* =========================
+   📲 SMALL MOBILE
+========================= */
+@media (max-width: 400px) {
+
+  .glass-container {
+    padding: 12px;
+  }
+
+  h1 {
+    font-size: 16px;
+  }
+
+  p {
+    font-size: 12px;
+  }
+
+  input,
+  select {
+    font-size: 12px;
+    padding: 9px;
+  }
+
+  .btn {
+    font-size: 13px;
+  }
+}
