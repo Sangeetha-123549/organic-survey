@@ -1,96 +1,191 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Survey Form</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organic Farming Survey</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+</head>
 <body>
 
-<div class="glass">
+<div class="glass-container">
 
-<h2>🌱 Organic Farming Survey</h2>
+<h1>🌱 Organic Farming Survey</h1>
+
+<p>
+Help us understand farming practices and organic farming adoption.
+Your responses will be used only for academic research purposes.
+</p>
 
 <form id="surveyForm">
 
-<label>1. Age Group</label>
-<select name="q1">
-  <option>18-25</option>
-  <option>26-40</option>
-  <option>40-60</option>
-  <option>60+</option>
+<input type="hidden" id="location" name="location">
+<input type="hidden" id="timestamp" name="timestamp">
+
+<div id="time"></div>
+
+<label>Farmer Name</label>
+<input type="text"
+name="farmerName"
+placeholder="Enter Farmer Name"
+required>
+
+<label>1. What is your age group?</label>
+<select name="q1" required>
+<option value="">Select</option>
+<option>18-30</option>
+<option>31-45</option>
+<option>46-60</option>
+<option>60+</option>
 </select>
 
-<label>2. Occupation</label>
-<select name="q2">
-  <option>Farmer</option>
-  <option>Student</option>
-  <option>Business</option>
+<label>2. What is your occupation?</label>
+<select name="q2" required>
+<option value="">Select</option>
+<option>Farmer</option>
+<option>Agricultural Laborer</option>
+<option>Business</option>
+<option>Other</option>
 </select>
 
-<label>3. Land Size</label>
-<select name="q3">
-  <option>Below 1 acre</option>
-  <option>1-5 acres</option>
-  <option>5+ acres</option>
+<label>3. How many acres of land do you own?</label>
+<select name="q3" required>
+<option value="">Select</option>
+<option>Less than 1 acre</option>
+<option>1-5 acres</option>
+<option>5-10 acres</option>
+<option>More than 10 acres</option>
 </select>
 
-<label>4. Farming Experience</label>
-<select name="q4">
-  <option>20-40 years</option>
-  <option>40-60years</option>
-  <option>60+ years</option>
+<label>4. How many years have you been farming?</label>
+<select name="q4" required>
+<option value="">Select</option>
+<option>0-5 Years</option>
+<option>6-10 Years</option>
+<option>11-20 Years</option>
+<option>More than 20 Years</option>
 </select>
 
-<label>5. Main Crop</label>
-<select name="q5">
-  <option>Rice</option>
-  <option>Vegetables</option>
-  <option>Wheat</option>
-  <option>sugarcane</option>
-  <option>millets</option>
-  <option>groundnuts</option>
+<label>5. What crops do you mainly grow?</label>
+<select name="q5" required>
+<option>Rice</option>
+<option>Wheat</option>
+<option>Vegetables</option>
+<option>Sugarcane</option>
+<option>Other</option>
 </select>
 
 <label>6. Do you practice organic farming?</label>
-<select name="q6">
-  <option>Yes</option>
-  <option>No</option>
+<select name="q6" required>
+<option>Yes</option>
+<option>No</option>
 </select>
 
-<label>7. Use chemical fertilizers?</label>
-<select name="q7">
-  <option>Yes</option>
-  <option>No</option>
+<label>7. Do you use chemical fertilizers?</label>
+<select name="q7" required>
+<option>Yes</option>
+<option>No</option>
 </select>
 
-<label>8. Use organic fertilizers?</label>
-<select name="q8">
-  <option>Yes</option>
-  <option>No</option>
+<label>8. Do you use organic fertilizers?</label>
+<select name="q8" required>
+<option>Yes</option>
+<option>No</option>
 </select>
 
-<label>9. Use pesticides?</label>
-<select name="q9">
-  <option>Yes</option>
-  <option>No</option>
+<label>9. Do you use pesticides?</label>
+<select name="q9" required>
+<option>Yes</option>
+<option>No</option>
 </select>
 
-<label>10. Awareness level</label>
-<select name="q10">
-  <option>High</option>
-  <option>Medium</option>
-  <option>Low</option>
+<label>10. Are you aware of organic farming benefits?</label>
+<select name="q10" required>
+<option>Yes</option>
+<option>No</option>
 </select>
 
-<br><br>
+<label>11. Have you attended farming training programs?</label>
+<select name="q11" required>
+<option>Yes</option>
+<option>No</option>
+</select>
 
-<button class="btn" type="submit">Submit</button>
+<label>12. What is your main irrigation source?</label>
+<select name="q12" required>
+<option>Rain Water</option>
+<option>Borewell</option>
+<option>Canal</option>
+<option>River</option>
+</select>
+
+<label>13. Has your crop yield increased recently?</label>
+<select name="q13" required>
+<option>Yes</option>
+<option>No</option>
+</select>
+
+<label>14. How do you compare organic and chemical farming productivity?</label>
+<select name="q14" required>
+<option>Organic Better</option>
+<option>Chemical Better</option>
+<option>Equal</option>
+</select>
+
+<label>15. Which farming method is more cost effective?</label>
+<select name="q15" required>
+<option>Organic Farming</option>
+<option>Chemical Farming</option>
+</select>
+
+<label>16. Do you get better market prices for crops?</label>
+<select name="q16" required>
+<option>Yes</option>
+<option>No</option>
+</select>
+
+<label>17. What is the major farming problem you face?</label>
+<select name="q17" required>
+<option>Water Shortage</option>
+<option>Pests</option>
+<option>Market Price</option>
+<option>Labor Issues</option>
+</select>
+
+<label>18. Has soil fertility improved over time?</label>
+<select name="q18" required>
+<option>Yes</option>
+<option>No</option>
+</select>
+
+<label>19. Where do you sell your produce?</label>
+<select name="q19" required>
+<option>Local Market</option>
+<option>Wholesale Market</option>
+<option>Direct Customers</option>
+<option>Online Platforms</option>
+</select>
+
+<label>20. What is your future farming plan?</label>
+<select name="q20" required>
+<option>Continue Organic Farming</option>
+<option>Switch to Organic Farming</option>
+<option>Continue Chemical Farming</option>
+<option>Stop Farming</option>
+</select>
+
+<button type="submit" class="btn">
+Submit Survey
+</button>
 
 </form>
 
 </div>
 
 <script src="script.js"></script>
+
 </body>
 </html>
