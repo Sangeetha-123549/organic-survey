@@ -2,7 +2,6 @@ const sheetURL = "https://docs.google.com/spreadsheets/d/1R75-Mb2glPowZr4MQaoH3c
 
 let pieChart, barChart;
 
-// 📊 INIT CHARTS
 function initCharts() {
 
   pieChart = new Chart(document.getElementById("pieChart"), {
@@ -27,7 +26,7 @@ function initCharts() {
   });
 }
 
-// 🔄 FETCH DATA
+// 🔄 UPDATE DASHBOARD
 async function updateDashboard() {
 
   const res = await fetch(sheetURL);
@@ -48,25 +47,26 @@ async function updateDashboard() {
 
   rows.forEach(row => {
 
-    // ✅ safer CSV split
     const cols = row.split(",").map(c => c.replace(/"/g, "").trim());
 
-    if (cols.length < 12) return;
+    // ✅ safety check
+    if (cols.length < 10) return;
 
     total++;
 
-    const organicAnswer = cols[8]; // ⚠️ check your sheet index
+    // 🟢 safer logic (not strict index dependency)
+    const values = cols.join(" ").toLowerCase();
 
-    if (organicAnswer === "Yes") organic++;
-    else if (organicAnswer === "No") chemical++;
+    // Organic logic
+    if (values.includes("yes")) organic++;
+    else if (values.includes("no")) chemical++;
     else partial++;
 
-    const water = cols[12];
-
-    if (water === "Borewell") borewell++;
-    else if (water === "Rain Water" || water === "Rainwater") rainwater++;
-    else if (water === "Canal") canal++;
-    else if (water === "River" || water === "Tank") tank++;
+    // Water logic
+    if (values.includes("borewell")) borewell++;
+    else if (values.includes("rain")) rainwater++;
+    else if (values.includes("canal")) canal++;
+    else if (values.includes("river") || values.includes("tank")) tank++;
   });
 
   pieChart.data.datasets[0].data = [organic, partial, chemical];
@@ -75,8 +75,10 @@ async function updateDashboard() {
   barChart.data.datasets[0].data = [borewell, rainwater, canal, tank];
   barChart.update();
 
-  document.getElementById("total").innerText =
-    "👨‍🌾 Total Farmers: " + total;
+  const totalBox = document.getElementById("total");
+  if (totalBox) {
+    totalBox.innerText = "👨‍🌾 Total Farmers: " + total;
+  }
 }
 
 setInterval(updateDashboard, 5000);
