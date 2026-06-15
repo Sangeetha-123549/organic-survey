@@ -1,6 +1,6 @@
 const scriptURL = "https://script.google.com/macros/s/AKfycby4IZQjAZ41DJ1akR6YUndjuYCH88fwCDA8ZwffcAWtDBXpeOWcjhMwYkROHhZvOWw/exec";
 
-// ⏰ LIVE TIME DISPLAY
+// ⏰ LIVE TIME
 setInterval(() => {
   const timeBox = document.getElementById("time");
   if (timeBox) {
@@ -8,13 +8,9 @@ setInterval(() => {
   }
 }, 1000);
 
-// 📍 SAFE GPS FUNCTION
+// 📍 GPS
 function getLocation() {
   return new Promise((resolve) => {
-    if (!navigator.geolocation) {
-      resolve({ latitude: "Not supported", longitude: "Not supported" });
-    }
-
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         resolve({
@@ -23,40 +19,41 @@ function getLocation() {
         });
       },
       () => {
-        resolve({ latitude: "Denied", longitude: "Denied" });
+        resolve({
+          latitude: "Denied",
+          longitude: "Denied"
+        });
       }
     );
   });
 }
 
-// 💾 FORM SUBMIT
+// 💾 SUBMIT
 document.addEventListener("DOMContentLoaded", () => {
 
   const form = document.getElementById("surveyForm");
-
-  if (!form) return;
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const formData = Object.fromEntries(new FormData(form));
-
     const location = await getLocation();
 
-    // ✅ FINAL FLAT PAYLOAD (IMPORTANT FIX)
+    // ✅ IMPORTANT: clean mapping (not spread)
     const payload = {
-      time: new Date().toLocaleString(),
+      name: formData.farmerName,
+      age: formData.q1,
+      crops: formData.q5,
+      organic: formData.q6,
+      water: formData.q12,
       latitude: location.latitude,
       longitude: location.longitude,
-      ...formData
+      time: new Date().toLocaleString()
     };
 
     try {
       await fetch(scriptURL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
         body: JSON.stringify(payload)
       });
 
