@@ -1,6 +1,6 @@
-const scriptURL = "https://script.google.com/macros/s/AKfycby4IZQjAZ41DJ1akR6YUndjuYCH88fwCDA8ZwffcAWtDBXpeOWcjhMwYkROHhZvOWw/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbxPkkLkJ5C04iUkAPdbfIc9SeVe021tBeYvBYXzjgUWA2N8vFYtA_vpyb6g4D0ePao/exec";
 
-// ⏰ LIVE TIME
+// ⏰ LIVE TIME DISPLAY
 setInterval(() => {
   const timeBox = document.getElementById("time");
   if (timeBox) {
@@ -8,9 +8,13 @@ setInterval(() => {
   }
 }, 1000);
 
-// 📍 GPS
+// 📍 GPS LOCATION
 function getLocation() {
   return new Promise((resolve) => {
+    if (!navigator.geolocation) {
+      resolve({ latitude: "Not supported", longitude: "Not supported" });
+    }
+
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         resolve({
@@ -28,10 +32,12 @@ function getLocation() {
   });
 }
 
-// 💾 SUBMIT
+// 💾 FORM SUBMIT
 document.addEventListener("DOMContentLoaded", () => {
 
   const form = document.getElementById("surveyForm");
+
+  if (!form) return;
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -39,13 +45,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const formData = Object.fromEntries(new FormData(form));
     const location = await getLocation();
 
-    // ✅ IMPORTANT: clean mapping (not spread)
+    // ✅ CLEAN PAYLOAD (IMPORTANT)
     const payload = {
-      name: formData.farmerName,
-      age: formData.q1,
-      crops: formData.q5,
-      organic: formData.q6,
-      water: formData.q12,
+      name: formData.farmerName || "",
+      age: formData.q1 || "",
+      years: formData.q4 || "",
+      crops: formData.q5 || "",
+      chemical: formData.q7 || "",
+      organic: formData.q6 || "",
+      pesticide: formData.q9 || "",
+      awareness: formData.q10 || "",
+      training: formData.q11 || "",
+      water: formData.q12 || "",
+      acres: formData.q3 || "",
+      location: formData.location || "",
       latitude: location.latitude,
       longitude: location.longitude,
       time: new Date().toLocaleString()
