@@ -1,4 +1,4 @@
-const scriptURL = "https://script.google.com/macros/s/AKfycbwhPgI16P1d6uodkf-MZ_cCIxNOWmiGxDlE50LfWS8N48f-yAi8T974-cBR_r9pih0/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycby4IZQjAZ41DJ1akR6YUndjuYCH88fwCDA8ZwffcAWtDBXpeOWcjhMwYkROHhZvOWw/exec";
 
 // ⏰ LIVE TIME DISPLAY
 setInterval(() => {
